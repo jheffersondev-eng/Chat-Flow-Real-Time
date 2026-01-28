@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Send, Bot, Loader2 } from 'lucide-react';
+import { ArrowLeft, Send, Bot, Loader2, MoreVertical } from 'lucide-react';
 import api from '@/lib/api';
 import Echo from '@/lib/echo';
 
@@ -36,6 +36,7 @@ export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [loading, setLoading] = useState(true);
+  const [sending, setSending] = useState(false);
   const [waitingForBot, setWaitingForBot] = useState(false); // Block until bot responds
   const [typingUsers, setTypingUsers] = useState<string[]>([]);
   const messagesEndRef = useRef<HTMLDivElement>(null);
