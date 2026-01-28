@@ -1,0 +1,170 @@
+{
+  "en": {
+    "nav": {
+      "login": "Login",
+      "signup": "Sign Up",
+      "logout": "Logout",
+      "newChat": "New Chat"
+    },
+    "home": {
+      "title": "Chat with AI",
+      "subtitle": "Experience intelligent conversations powered by advanced AI technology",
+      "description": "Get instant answers, creative ideas, and assistance with your tasks. Our AI-powered chat helps you work smarter and faster.",
+      "getStarted": "Get Started",
+      "features": {
+        "title": "Why Choose Our AI Chat?",
+        "realtime": {
+          "title": "Real-time Responses",
+          "description": "Get instant answers to your questions with our lightning-fast AI"
+        },
+        "smart": {
+          "title": "Smart Context",
+          "description": "AI remembers your conversation history for better interactions"
+        },
+        "secure": {
+          "title": "Secure & Private",
+          "description": "Your conversations are encrypted and private"
+        }
+      }
+    },
+    "auth": {
+      "loginTitle": "Welcome Back",
+      "signupTitle": "Create Account",
+      "email": "Email",
+      "password": "Password",
+      "name": "Name",
+      "loginButton": "Sign In",
+      "signupButton": "Create Account",
+      "or": "or continue with",
+      "google": "Google",
+      "github": "GitHub",
+      "noAccount": "Don't have an account?",
+      "hasAccount": "Already have an account?",
+      "signupLink": "Sign up",
+      "loginLink": "Sign in"
+    },
+    "chat": {
+      "placeholder": "Type your message...",
+      "send": "Send",
+      "typing": "AI is typing...",
+      "newChat": "New Chat",
+      "history": "Chat History",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "lastWeek": "Last 7 days",
+      "older": "Older"
+    }
+  },
+  "pt": {
+    "nav": {
+      "login": "Entrar",
+      "signup": "Cadastrar",
+      "logout": "Sair",
+      "newChat": "Novo Chat"
+    },
+    "home": {
+      "title": "Chat com IA",
+      "subtitle": "Experimente conversas inteligentes impulsionadas por tecnologia avançada de IA",
+      "description": "Obtenha respostas instantâneas, ideias criativas e assistência com suas tarefas. Nosso chat com IA ajuda você a trabalhar de forma mais inteligente e rápida.",
+      "getStarted": "Começar",
+      "features": {
+        "title": "Por Que Escolher Nosso Chat com IA?",
+        "realtime": {
+          "title": "Respostas em Tempo Real",
+          "description": "Obtenha respostas instantâneas com nossa IA super rápida"
+        },
+        "smart": {
+          "title": "Contexto Inteligente",
+          "description": "A IA lembra seu histórico para melhores interações"
+        },
+        "secure": {
+          "title": "Seguro e Privado",
+          "description": "Suas conversas são criptografadas e privadas"
+        }
+      }
+    },
+    "auth": {
+      "loginTitle": "Bem-vindo de Volta",
+      "signupTitle": "Criar Conta",
+      "email": "Email",
+      "password": "Senha",
+      "name": "Nome",
+      "loginButton": "Entrar",
+      "signupButton": "Criar Conta",
+      "or": "ou continue com",
+      "google": "Google",
+      "github": "GitHub",
+      "noAccount": "Não tem uma conta?",
+      "hasAccount": "Já tem uma conta?",
+      "signupLink": "Cadastre-se",
+      "loginLink": "Entrar"
+    },
+    "chat": {
+      "placeholder": "Digite sua mensagem...",
+      "send": "Enviar",
+      "typing": "IA está digitando...",
+      "newChat": "Novo Chat",
+      "history": "Histórico",
+      "today": "Hoje",
+      "yesterday": "Ontem",
+      "lastWeek": "Últimos 7 dias",
+      "older": "Mais antigos"
+    }
+  },
+  "es": {
+    "nav": {
+      "login": "Iniciar Sesión",
+      "signup": "Registrarse",
+      "logout": "Cerrar Sesión",
+      "newChat": "Nuevo Chat"
+    },
+    "home": {
+      "title": "Chat con IA",
+      "subtitle": "Experimenta conversaciones inteligentes impulsadas por tecnología avanzada de IA",
+      "description": "Obtén respuestas instantáneas, ideas creativas y asistencia con tus tareas. Nuestro chat con IA te ayuda a trabajar de manera más inteligente y rápida.",
+      "getStarted": "Comenzar",
+      "features": {
+        "title": "¿Por Qué Elegir Nuestro Chat con IA?",
+        "realtime": {
+          "title": "Respuestas en Tiempo Real",
+          "description": "Obtén respuestas instantáneas con nuestra IA súper rápida"
+        },
+        "smart": {
+          "title": "Contexto Inteligente",
+          "description": "La IA recuerda tu historial para mejores interacciones"
+        },
+        "secure": {
+          "title": "Seguro y Privado",
+          "description": "Tus conversaciones están encriptadas y privadas"
+        }
+      }
+    },
+    "auth": {
+      "loginTitle": "Bienvenido de Nuevo",
+      "signupTitle": "Crear Cuenta",
+      "email": "Correo Electrónico",
+      "password": "Contraseña",
+      "name": "Nombre",
+      "loginButton": "Iniciar Sesión",
+      "signupButton": "Crear Cuenta",
+      "or": "o continuar con",
+      "google": "Google",
+      "github": "GitHub",
+      "noAccount": "¿No tienes una cuenta?",
+      "hasAccount": "¿Ya tienes una cuenta?",
+      "signupLink": "Regístrate",
+      "loginLink": "Iniciar sesión"
+    },
+    "chat": {
+      "placeholder": "Escribe tu mensaje...",
+      "send": "Enviar",
+      "typing": "IA está escribiendo...",
+      "newChat": "Nuevo Chat",
+      "history": "Historial",
+      "today": "Hoy",
+      "yesterday": "Ayer",
+      "lastWeek": "Últimos 7 días",
+      "older": "Más antiguos"
+    }
+  }
+}

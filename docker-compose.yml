@@ -1,0 +1,144 @@
+version: '3.8'
+
+services:
+  # Nginx Web Server
+  nginx:
+    image: nginx:alpine
+    container_name: chat_app_nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./backend:/var/www/html
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d
+    depends_on:
+      - php
+    networks:
+      - chat_network
+
+  # PHP-FPM
+  php:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: chat_app_php
+    working_dir: /var/www/html
+    volumes:
+      - ./backend:/var/www/html
+    environment:
+      - PHP_MEMORY_LIMIT=512M
+      - PHP_MAX_EXECUTION_TIME=300
+    depends_on:
+      - postgres
+      - redis
+      - elasticsearch
+    networks:
+      - chat_network
+
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: chat_app_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: chat_app
+      POSTGRES_USER: chat_user
+      POSTGRES_PASSWORD: chat_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - chat_network
+
+  # Redis for Cache and Queue
+  redis:
+    image: redis:7-alpine
+    container_name: chat_app_redis
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    networks:
+      - chat_network
+
+  # Elasticsearch for Search
+  elasticsearch:
+    image: elasticsearch:8.11.0
+    container_name: chat_app_elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    networks:
+      - chat_network
+
+  # WebSocket Server - Laravel WebSockets
+  websockets:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: chat_app_websockets
+    working_dir: /var/www/html
+    command: php artisan websockets:serve
+    volumes:
+      - ./backend:/var/www/html
+    ports:
+      - "6001:6001"
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - chat_network
+
+  # Queue Worker
+  queue:
+    build:
+      context: ./docker/php
+      dockerfile: Dockerfile
+    container_name: chat_app_queue
+    working_dir: /var/www/html
+    command: php artisan queue:work --tries=3
+    volumes:
+      - ./backend:/var/www/html
+    depends_on:
+      - redis
+      - postgres
+    networks:
+      - chat_network
+    restart: unless-stopped
+
+  # Next.js Frontend (commented out for local development)
+  # frontend:
+  #   build:
+  #     context: ./frontend
+  #     dockerfile: Dockerfile
+  #   container_name: chat_app_frontend
+  #   ports:
+  #     - "3000:3000"
+  #   volumes:
+  #     - ./frontend:/app
+  #     - /app/node_modules
+  #     - /app/.next
+  #   environment:
+  #     - NODE_ENV=development
+  #     - NEXT_PUBLIC_API_URL=http://localhost/api
+  #     - NEXT_PUBLIC_WS_URL=ws://localhost:6001
+  #   depends_on:
+  #     - nginx
+  #   networks:
+  #     - chat_network
+
+networks:
+  chat_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  redis_data:
+  elasticsearch_data:
