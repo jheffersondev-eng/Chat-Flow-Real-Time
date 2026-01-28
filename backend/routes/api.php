@@ -1,9 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\ChatController;
-use App\Http\Controllers\Api\FriendshipController;
-use App\Http\Controllers\Api\ConversationController;
-use App\Http\Controllers\Api\UserController;
+use Backend\Http\Controllers\Api\ConversationController;
+use Backend\Http\Controllers\Api\FriendshipController;
+use Backend\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -17,14 +16,14 @@ Route::get('/test', function () {
 
 Route::middleware('auth:sanctum')->group(function () {
     // Current user
-    Route::get('/user', [UserController::class, 'me']);
+    Route::get('/user', [UserController::class, 'show']);
 
     // User search
     Route::get('/users/search', [UserController::class, 'search']);
 
     // Friendships
     Route::post('/friendships', [FriendshipController::class, 'sendRequest']);
-    Route::get('/friendships', [FriendshipController::class, 'index']);
+    Route::get('/friendships', [FriendshipController::class, 'friends']);
     Route::get('/friendships/pending', [FriendshipController::class, 'pending']);
     Route::put('/friendships/{id}/accept', [FriendshipController::class, 'acceptRequest']);
     Route::delete('/friendships/{id}/reject', [FriendshipController::class, 'rejectRequest']);
@@ -38,12 +37,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/conversations/{id}/messages', [ConversationController::class, 'getMessages']);
     Route::post('/conversations/{id}/messages', [ConversationController::class, 'sendMessage']);
     Route::delete('/conversations/{id}', [ConversationController::class, 'destroy']);
-
-    // Legacy chat routes (deprecated)
-    Route::prefix('chat')->group(function () {
-        Route::get('/conversations', [ChatController::class, 'getConversations']);
-        Route::get('/conversations/{id}/messages', [ChatController::class, 'getMessages']);
-        Route::post('/messages', [ChatController::class, 'sendMessage']);
-        Route::post('/typing', [ChatController::class, 'typing']);
-    });
 });

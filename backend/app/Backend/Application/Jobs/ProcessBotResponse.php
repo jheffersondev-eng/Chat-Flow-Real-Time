@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Jobs;
+namespace Backend\Application\Jobs;
 
-use App\Events\MessageSent;
-use App\Backend\Application\Services\LLMBotService;
-use App\Backend\Domain\Entities\Message;
+use Backend\Domain\Events\MessageSent;
+use Backend\Application\Services\LLMBotService;
+use Backend\Domain\Entities\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

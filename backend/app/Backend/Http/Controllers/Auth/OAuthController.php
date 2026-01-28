@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace Backend\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use Backend\Domain\Repositories\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
 class OAuthController extends Controller
 {
+    public function __construct(
+        private UserRepositoryInterface $userRepository
+    ) {}
+
     /**
      * Redirect to OAuth provider
      */
@@ -33,24 +35,14 @@ class OAuthController extends Controller
             $socialUser = Socialite::driver($provider)->user();
             
             // Find or create user
-            $user = User::where('email', $socialUser->getEmail())->first();
-            
-            if (!$user) {
-                $user = User::create([
+            $user = $this->userRepository->findOrCreateFromOAuth(
+                $provider,
+                $socialUser->getId(),
+                [
                     'name' => $socialUser->getName(),
                     'email' => $socialUser->getEmail(),
-                    'password' => Hash::make(Str::random(24)),
-                    'email_verified_at' => now(),
-                    'oauth_provider' => $provider,
-                    'oauth_provider_id' => $socialUser->getId(),
-                ]);
-            } else {
-                // Update OAuth info if user exists
-                $user->update([
-                    'oauth_provider' => $provider,
-                    'oauth_provider_id' => $socialUser->getId(),
-                ]);
-            }
+                ]
+            );
 
             // Login user
             Auth::login($user, true);

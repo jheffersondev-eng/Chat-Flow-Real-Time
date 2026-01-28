@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace Backend\Application\Services;
 
 use OpenAI\Laravel\Facades\OpenAI;
+use Illuminate\Support\Facades\Log;
 
 class LLMBotService
 {
@@ -12,17 +13,16 @@ class LLMBotService
     public function generateResponse(string $message, array $conversationHistory = []): string
     {
         try {
-            // Check if OpenAI API key is configured
             $apiKey = env('OPENAI_API_KEY');
             if (empty($apiKey) || strpos($apiKey, 'COLOQUE_SUA_CHAVE_AQUI') !== false) {
-                \Log::warning('OpenAI API key not configured');
+                Log::warning('OpenAI API key not configured');
                 return $this->getFallbackResponse($message);
             }
 
             $messages = $this->formatMessages($conversationHistory);
             $messages[] = ['role' => 'user', 'content' => $message];
 
-            \Log::info('Calling OpenAI API', ['model' => env('OPENAI_MODEL', 'gpt-3.5-turbo')]);
+            Log::info('Calling OpenAI API', ['model' => env('OPENAI_MODEL', 'gpt-3.5-turbo')]);
 
             $result = OpenAI::chat()->create([
                 'model' => env('OPENAI_MODEL', 'gpt-3.5-turbo'),
@@ -32,13 +32,12 @@ class LLMBotService
             ]);
 
             $response = $result->choices[0]->message->content ?? 'Sorry, I could not generate a response.';
-            \Log::info('OpenAI response received', ['length' => strlen($response)]);
+            Log::info('OpenAI response received', ['length' => strlen($response)]);
             
             return $response;
         } catch (\Exception $e) {
-            \Log::error('OpenAI Error: ' . $e->getMessage());
+            Log::error('OpenAI Error: ' . $e->getMessage());
             
-            // Check if it's a quota error
             if (strpos($e->getMessage(), 'quota') !== false || strpos($e->getMessage(), 'billing') !== false) {
                 return "🤖 A chave da OpenAI não tem créditos disponíveis. Usando resposta simulada:\n\n" . $this->getFallbackResponse($message);
             }
@@ -68,7 +67,6 @@ class LLMBotService
             }
         }
 
-        // Default fallback
         return "🤖 Recebi sua mensagem: \"$message\"\n\nEu sou um assistente de IA simulado (a chave OpenAI real está sem créditos). Posso:\n\n✅ Responder saudações\n✅ Manter conversas básicas\n✅ Demonstrar o funcionamento do sistema\n\nPara respostas reais da IA, adicione créditos na sua conta OpenAI em: https://platform.openai.com/account/billing";
     }
 

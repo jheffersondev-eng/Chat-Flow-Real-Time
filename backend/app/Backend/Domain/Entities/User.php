@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Models;
+namespace Backend\Domain\Entities;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,11 +11,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'email',
@@ -25,21 +19,11 @@ class User extends Authenticatable
         'oauth_provider_id',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
@@ -102,13 +86,24 @@ class User extends Authenticatable
         })->where('status', 'accepted')->exists();
     }
 
-    // Get pending friend requests
-    public function pendingFriendRequests()
+    // Check if a friend request is pending
+    public function hasPendingRequestWith($userId)
     {
-        return $this->friendRequestsReceived()
-            ->where('status', 'pending')
-            ->with('user')
-            ->get()
-            ->pluck('user');
+        return Friendship::where(function ($query) use ($userId) {
+            $query->where('user_id', $this->id)
+                  ->where('friend_id', $userId);
+        })->orWhere(function ($query) use ($userId) {
+            $query->where('user_id', $userId)
+                  ->where('friend_id', $this->id);
+        })->where('status', 'pending')->exists();
+    }
+
+    // Search users
+    public static function search($term)
+    {
+        return static::where('name', 'LIKE', "%{$term}%")
+            ->orWhere('email', 'LIKE', "%{$term}%")
+            ->limit(10)
+            ->get();
     }
 }

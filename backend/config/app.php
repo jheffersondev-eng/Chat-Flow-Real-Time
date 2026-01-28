@@ -168,6 +168,11 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        
+        /*
+         * DDD Architecture Service Providers...
+         */
+        Backend\Infrastructure\Providers\RepositoryServiceProvider::class,
     ])->toArray(),
 
     /*
