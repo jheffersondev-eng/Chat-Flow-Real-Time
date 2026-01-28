@@ -167,11 +167,11 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="h-screen bg-gray-900 text-white flex overflow-hidden">
+    <div className="h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white flex overflow-hidden">
       {/* Sidebar */}
-      <div className="w-80 bg-gray-800 border-r border-gray-700 flex flex-col">
+      <div className="w-80 bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col">
         {/* Header */}
-        <div className="p-4 border-b border-gray-700">
+        <div className="p-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <MessageCircle className="w-6 h-6 text-purple-400" />
@@ -181,36 +181,36 @@ export default function DashboardPage() {
             </div>
             <button
               onClick={handleLogout}
-              className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               title={t('dashboard.logout')}
             >
-              <LogOut className="w-5 h-5 text-gray-400" />
+              <LogOut className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             </button>
             <button
               onClick={() => router.push('/settings/2fa')}
-              className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
               title={t('dashboard.security')}
             >
-              <Shield className="w-5 h-5 text-gray-400" />
+              <Shield className="w-5 h-5 text-gray-500 dark:text-gray-400" />
             </button>
           </div>
           
-          <div className="flex items-center gap-3 p-3 bg-gray-700 rounded-lg">
+          <div className="flex items-center gap-3 p-3 bg-gray-100 dark:bg-gray-700 rounded-lg">
             <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
               <span className="text-lg font-bold">{user?.name.charAt(0)}</span>
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-semibold truncate">{user?.name}</p>
-              <p className="text-sm text-gray-400 truncate">{user?.email}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user?.email}</p>
             </div>
           </div>
         </div>
 
         {/* Action Buttons */}
-        <div className="p-4 space-y-2 border-b border-gray-700">
+        <div className="p-4 space-y-2 border-b border-gray-200 dark:border-gray-700">
           <button
             onClick={() => setShowSearchModal(true)}
-            className="w-full flex items-center gap-3 p-3 bg-purple-600 hover:bg-purple-700 rounded-lg transition-all hover:scale-105"
+            className="w-full flex items-center gap-3 p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-all hover:scale-105"
           >
             <UserPlus className="w-5 h-5" />
             <span className="font-semibold">{t('dashboard.sidebar.actions.addFriend')}</span>
@@ -219,7 +219,7 @@ export default function DashboardPage() {
           <button
             onClick={createAIChat}
             disabled={creatingChat}
-            className="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 rounded-lg transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            className="w-full flex items-center gap-3 p-3 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white rounded-lg transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
           >
             <Bot className="w-5 h-5" />
             <span className="font-semibold">
@@ -237,7 +237,7 @@ export default function DashboardPage() {
             </h3>
             
             {conversations.length === 0 ? (
-              <div className="text-center py-8 text-gray-500">
+              <div className="text-center py-8 text-gray-500 dark:text-gray-500">
                 <Users className="w-12 h-12 mx-auto mb-3 opacity-50" />
                 <p className="text-sm">{t('dashboard.sidebar.conversations.empty.title')}</p>
                 <p className="text-xs mt-1">{t('dashboard.sidebar.conversations.empty.subtitle')}</p>
@@ -255,7 +255,7 @@ export default function DashboardPage() {
                       onClick={() => {
                         openConversation(conversation);
                       }}
-                      className="w-full p-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-all text-left"
+                      className="w-full p-3 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg transition-all text-left"
                     >
                       <div className="flex items-start gap-3">
                         <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -278,7 +278,7 @@ export default function DashboardPage() {
                             )}
                           </div>
                           {conversation.latest_message && (
-                            <p className="text-sm text-gray-400 truncate">
+                            <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
                               {conversation.latest_message.content}
                             </p>
                           )}
@@ -309,7 +309,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 flex flex-col items-center justify-center bg-gray-900">
+      <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900">
         <div className="w-full max-w-2xl px-6 mb-10">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -318,23 +318,23 @@ export default function DashboardPage() {
               value={chatSearch}
               onChange={(e) => setChatSearch(e.target.value)}
               placeholder={t('dashboard.search.placeholder')}
-              className="w-full pl-12 pr-4 py-3 rounded-xl bg-gray-800 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              className="w-full pl-12 pr-4 py-3 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900 dark:text-white"
             />
           </div>
 
           {(chatSearchLoading || chatSearchResults.length > 0 || chatSearch.trim().length >= 2) && (
-            <div className="mt-4 bg-gray-800 border border-gray-700 rounded-xl overflow-hidden">
+            <div className="mt-4 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl overflow-hidden">
               {chatSearchLoading ? (
-                <div className="p-4 text-sm text-gray-400">{t('dashboard.search.loading')}</div>
+                <div className="p-4 text-sm text-gray-500 dark:text-gray-400">{t('dashboard.search.loading')}</div>
               ) : chatSearchResults.length === 0 ? (
-                <div className="p-4 text-sm text-gray-400">{t('dashboard.search.empty')}</div>
+                <div className="p-4 text-sm text-gray-500 dark:text-gray-400">{t('dashboard.search.empty')}</div>
               ) : (
-                <div className="divide-y divide-gray-700">
+                <div className="divide-y divide-gray-200 dark:divide-gray-700">
                   {chatSearchResults.map((result) => (
                     <button
                       key={result.id}
                       onClick={() => openConversation(result)}
-                      className="w-full text-left p-4 hover:bg-gray-700 transition-colors"
+                      className="w-full text-left p-4 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
                     >
                       <div className="flex items-start gap-3">
                         <div className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
@@ -348,13 +348,13 @@ export default function DashboardPage() {
                           <div className="flex items-center justify-between mb-1">
                             <p className="font-semibold truncate">{result.name}</p>
                             {result.matched_message && (
-                              <span className="text-xs text-gray-400">
+                              <span className="text-xs text-gray-500 dark:text-gray-400">
                                 {new Date(result.matched_message.created_at).toLocaleDateString(localeMap[locale] || locale)}
                               </span>
                             )}
                           </div>
                           {result.matched_message && (
-                            <p className="text-sm text-gray-300 truncate">
+                            <p className="text-sm text-gray-600 dark:text-gray-300 truncate">
                               {result.matched_message.user?.name ? `${result.matched_message.user.name}${t('dashboard.search.authorPrefix')}` : ''}
                               {result.matched_message.content}
                             </p>
@@ -386,7 +386,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-3xl font-bold mb-3 text-gray-200"
+            className="text-3xl font-bold mb-3 text-gray-800 dark:text-gray-200"
           >
             {t('dashboard.welcome.title')}
           </motion.h2>
@@ -395,7 +395,7 @@ export default function DashboardPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-gray-400 mb-8 max-w-md"
+            className="text-gray-600 dark:text-gray-400 mb-8 max-w-md"
           >
             {t('dashboard.welcome.subtitle')}
           </motion.p>
@@ -408,7 +408,7 @@ export default function DashboardPage() {
           >
             <button
               onClick={() => setShowSearchModal(true)}
-              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2"
+              className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2"
             >
               <UserPlus className="w-5 h-5" />
               {t('dashboard.welcome.addFriend')}
@@ -417,7 +417,7 @@ export default function DashboardPage() {
             <button
               onClick={createAIChat}
               disabled={creatingChat}
-              className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              className="px-6 py-3 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg font-semibold transition-all hover:scale-105 flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
             >
               <Bot className="w-5 h-5" />
               {creatingChat ? t('dashboard.sidebar.actions.aiChat.loading') : t('dashboard.welcome.aiChat')}
@@ -440,15 +440,15 @@ export default function DashboardPage() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-gray-800 rounded-xl p-6 max-w-md w-full border border-gray-700"
+            className="bg-white dark:bg-gray-800 rounded-xl p-6 max-w-md w-full border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white"
           >
             <h3 className="text-xl font-bold mb-4">{t('dashboard.chat.delete.title')}</h3>
-            <p className="text-gray-400 mb-6">{t('dashboard.chat.delete.body')}</p>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">{t('dashboard.chat.delete.body')}</p>
             <div className="flex gap-3">
               <button
                 onClick={() => setConfirmDelete(null)}
                 disabled={deletingConversationId === confirmDelete}
-                className="flex-1 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold transition-all disabled:opacity-50"
+                className="flex-1 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg font-semibold transition-all disabled:opacity-50"
               >
                 {t('dashboard.chat.delete.cancel')}
               </button>

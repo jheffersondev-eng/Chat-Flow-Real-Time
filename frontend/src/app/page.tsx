@@ -32,7 +32,7 @@ export default function LandingPage() {
   if (!mounted) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 text-gray-900 dark:text-white overflow-hidden">
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
@@ -51,7 +51,7 @@ export default function LandingPage() {
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <MessageCircle className="w-8 h-8 text-purple-400" />
+              <MessageCircle className="w-8 h-8 text-purple-500 dark:text-purple-400" />
               <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
                 {t('app.brand')}
               </span>
@@ -78,7 +78,7 @@ export default function LandingPage() {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent"
+              className="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-gray-900 via-purple-700 to-pink-600 dark:from-white dark:via-purple-200 dark:to-pink-200 bg-clip-text text-transparent"
             >
               {t('landing.title')}
             </motion.h1>
@@ -87,7 +87,7 @@ export default function LandingPage() {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl"
+              className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-12 max-w-3xl"
             >
               {t('landing.subtitle')}
             </motion.p>
@@ -116,7 +116,7 @@ export default function LandingPage() {
 
               <button
                 onClick={handleGithubLogin}
-                className="group relative px-8 py-4 bg-gray-800 border-2 border-gray-700 rounded-xl font-semibold overflow-hidden transition-all hover:scale-105 hover:border-purple-500 hover:shadow-2xl hover:shadow-purple-500/30"
+                className="group relative px-8 py-4 bg-white dark:bg-gray-800 text-gray-900 dark:text-white border-2 border-gray-200 dark:border-gray-700 rounded-xl font-semibold overflow-hidden transition-all hover:scale-105 hover:border-purple-500 hover:shadow-2xl hover:shadow-purple-500/30"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-pink-500/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
                 <div className="relative flex items-center gap-3">
@@ -161,14 +161,14 @@ export default function LandingPage() {
                 initial={{ y: 50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.6, delay: 1.2 + index * 0.2 }}
-                className="group relative p-8 bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-700 hover:border-purple-500 transition-all hover:scale-105"
+                className="group relative p-8 bg-white/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl border border-gray-200 dark:border-gray-700 hover:border-purple-500 transition-all hover:scale-105"
               >
                 <div className={`absolute inset-0 bg-gradient-to-r ${feature.color} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity`}></div>
                 <div className={`inline-flex p-3 bg-gradient-to-r ${feature.color} rounded-xl mb-4`}>
                   {feature.icon}
                 </div>
                 <h3 className="text-2xl font-bold mb-3">{feature.title}</h3>
-                <p className="text-gray-400">{feature.description}</p>
+                <p className="text-gray-600 dark:text-gray-400">{feature.description}</p>
               </motion.div>
             ))}
           </motion.div>
@@ -200,8 +200,8 @@ export default function LandingPage() {
         </section>
 
         {/* Footer */}
-        <footer className="container mx-auto px-6 py-8 border-t border-gray-800">
-          <div className="text-center text-gray-400">
+        <footer className="container mx-auto px-6 py-8 border-t border-gray-200 dark:border-gray-800">
+          <div className="text-center text-gray-500 dark:text-gray-400">
             <p>ChatFlow © 2026 - Comunicação Inteligente em Tempo Real</p>
           </div>
         </footer>
