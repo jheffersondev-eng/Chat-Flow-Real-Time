@@ -7,6 +7,8 @@ use Backend\Http\Controllers\Api\TwoFactorController;
 use Backend\Http\Controllers\Auth\TwoFactorAuthController;
 use Backend\Http\Controllers\Auth\RegisterController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/test', function () {
@@ -14,6 +16,42 @@ Route::get('/test', function () {
         'status' => 'ok',
         'message' => 'API funcionando com Laravel 10!',
         'websockets' => 'Rodando na porta 6001',
+    ]);
+});
+
+Route::get('/health', function () {
+    $dbStatus = 'disconnected';
+    try {
+        DB::connection()->getPdo();
+        $dbStatus = 'connected';
+    } catch (Throwable $e) {
+        $dbStatus = 'disconnected';
+    }
+
+    $uptime = isset($GLOBALS['LARAVEL_START'])
+        ? (int) (microtime(true) - $GLOBALS['LARAVEL_START'])
+        : null;
+
+    return response()->json([
+        'status' => 'ok',
+        'uptime' => $uptime,
+        'db' => $dbStatus,
+    ]);
+});
+
+Route::get('/metrics', function () {
+    $total = (int) Cache::get('metrics:requests_total', 0);
+    $errors4xx = (int) Cache::get('metrics:requests_4xx', 0);
+    $errors5xx = (int) Cache::get('metrics:requests_5xx', 0);
+    $sumMs = (int) Cache::get('metrics:response_time_sum_ms', 0);
+
+    $avgMs = $total > 0 ? (int) round($sumMs / $total) : 0;
+
+    return response()->json([
+        'requests_total' => $total,
+        'requests_4xx' => $errors4xx,
+        'requests_5xx' => $errors5xx,
+        'avg_response_time_ms' => $avgMs,
     ]);
 });
 
