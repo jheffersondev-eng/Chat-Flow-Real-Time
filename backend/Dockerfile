@@ -24,6 +24,10 @@ RUN a2enmod rewrite
 # Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+
+# Ajusta o DocumentRoot do Apache para /public
+RUN sed -i 's|DocumentRoot /var/www/html|DocumentRoot /var/www/html/public|g' /etc/apache2/sites-available/000-default.conf
+
 WORKDIR /var/www/html
 
 COPY . .
