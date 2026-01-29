@@ -111,4 +111,14 @@ class OAuthController extends Controller
 
         $this->ensureSessionUserId($userId, $attempts + 1);
     }
+
+    /**
+     * Validate OAuth provider
+     */
+    protected function validateProvider(string $provider)
+    {
+        if (!in_array($provider, ['google', 'github'])) {
+            abort(404, 'Invalid OAuth provider');
+        }
+    }
 }
