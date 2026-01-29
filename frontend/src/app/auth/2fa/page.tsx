@@ -1,12 +1,12 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Loader2, ShieldCheck } from 'lucide-react';
 import api from '@/lib/api';
 import { useI18n } from '@/lib/i18n';
 
-export default function TwoFactorLoginPage() {
+function TwoFactorLoginContent() {
   const { t } = useI18n();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -99,5 +99,13 @@ export default function TwoFactorLoginPage() {
         </button>
       </form>
     </div>
+  );
+}
+
+export default function TwoFactorLoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <TwoFactorLoginContent />
+    </Suspense>
   );
 }

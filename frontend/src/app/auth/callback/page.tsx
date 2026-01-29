@@ -1,11 +1,11 @@
 'use client'
 
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Loader2 } from 'lucide-react'
 import { useI18n } from '@/lib/i18n'
 
-export default function AuthCallbackPage() {
+function AuthCallbackContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const { t } = useI18n()
@@ -32,5 +32,13 @@ export default function AuthCallbackPage() {
         <p className="text-lg text-gray-900 dark:text-white">{t('auth.callback.loading')}</p>
       </div>
     </div>
+  )
+}
+
+export default function AuthCallbackPage() {
+  return (
+    <Suspense fallback={null}>
+      <AuthCallbackContent />
+    </Suspense>
   )
 }
