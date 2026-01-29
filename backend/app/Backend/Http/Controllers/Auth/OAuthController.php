@@ -80,6 +80,8 @@ class OAuthController extends Controller
 
             Log::debug('[OAuth] Logando usuário', ['user_id' => $user->id]);
             Auth::login($user, true);
+            // Regenera a sessão para garantir persistência correta do user_id (SESSION_DRIVER=database + OAuth)
+            request()->session()->regenerate();
             $token = $user->createToken('oauth-token')->plainTextToken;
             Log::debug('[OAuth] Token gerado e redirecionando', ['user_id' => $user->id, 'token' => $token]);
             return redirect()->away("{$frontendUrl}/auth/callback?token={$token}");
