@@ -58,8 +58,8 @@ export default function ChatPage() {
     subscribeToChannel();
 
     return () => {
-      if (conversationId && Echo) {
-        Echo.leave(`chat.${conversationId}`);
+      if (conversationId) {
+        Echo?.leave(`chat.${conversationId}`);
       }
     };
   }, [conversationId, router]);
