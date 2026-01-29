@@ -41,6 +41,19 @@ interface ConversationSearchResult {
   updated_at: string;
 }
 
+type HealthResponse = {
+  status: string;
+  uptime: number | null;
+  db: string;
+};
+
+type MetricsResponse = {
+  requests_total: number;
+  requests_4xx: number;
+  requests_5xx: number;
+  avg_response_time_ms: number;
+};
+
 export default function DashboardPage() {
   const router = useRouter();
   const { t, locale } = useI18n();
@@ -55,6 +68,8 @@ export default function DashboardPage() {
   const [chatSearch, setChatSearch] = useState('');
   const [chatSearchResults, setChatSearchResults] = useState<ConversationSearchResult[]>([]);
   const [chatSearchLoading, setChatSearchLoading] = useState(false);
+  const [health, setHealth] = useState<HealthResponse | null>(null);
+  const [metrics, setMetrics] = useState<MetricsResponse | null>(null);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -65,6 +80,7 @@ export default function DashboardPage() {
 
     loadUser();
     loadConversations();
+    loadMetrics();
   }, [router]);
 
   useEffect(() => {
@@ -111,6 +127,19 @@ export default function DashboardPage() {
       console.error('Erro ao carregar conversas:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadMetrics = async () => {
+    try {
+      const [healthResponse, metricsResponse] = await Promise.all([
+        api.get('/api/health'),
+        api.get('/api/metrics'),
+      ]);
+      setHealth(healthResponse.data);
+      setMetrics(metricsResponse.data);
+    } catch (error) {
+      console.error('Erro ao carregar métricas:', error);
     }
   };
 
@@ -310,7 +339,7 @@ export default function DashboardPage() {
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900">
-        <div className="w-full max-w-2xl px-6 mb-10">
+        <div className="w-full max-w-2xl px-6 mb-6">
           <div className="relative">
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
@@ -367,6 +396,42 @@ export default function DashboardPage() {
               )}
             </div>
           )}
+        </div>
+
+        <div className="w-full max-w-2xl px-6 mb-10">
+          <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4">
+            <div className="text-sm font-semibold mb-3">{t('dashboard.metrics.title')}</div>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('dashboard.metrics.health')}</div>
+                <div className="font-semibold">{health?.status ?? '-'}</div>
+              </div>
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('dashboard.metrics.db')}</div>
+                <div className="font-semibold">{health?.db ?? '-'}</div>
+              </div>
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('dashboard.metrics.uptime')}</div>
+                <div className="font-semibold">{health?.uptime ?? '-'}</div>
+              </div>
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('dashboard.metrics.requests')}</div>
+                <div className="font-semibold">{metrics?.requests_total ?? '-'}</div>
+              </div>
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('dashboard.metrics.errors4xx')}</div>
+                <div className="font-semibold">{metrics?.requests_4xx ?? '-'}</div>
+              </div>
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('dashboard.metrics.errors5xx')}</div>
+                <div className="font-semibold">{metrics?.requests_5xx ?? '-'}</div>
+              </div>
+              <div className="bg-gray-100 dark:bg-gray-700 rounded-lg p-3">
+                <div className="text-xs text-gray-500 dark:text-gray-400">{t('dashboard.metrics.avg')}</div>
+                <div className="font-semibold">{metrics?.avg_response_time_ms ?? '-'}</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div className="text-center">
