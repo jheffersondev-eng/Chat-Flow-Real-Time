@@ -6,7 +6,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:3000', 'http://localhost'],
+    'allowed_origins' => [
+        'https://teste-tecnico-edulabzz-toolzz.vercel.app',
+        'http://localhost:3000',
+        'http://localhost'
+    ],
 
     'allowed_origins_patterns' => [],
 
