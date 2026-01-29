@@ -84,6 +84,15 @@ class OAuthController extends Controller
             session()->save();
             DB::table('sessions')->where('id', session()->getId())->update(['user_id' => $user->id]);
 
+            // Loop para garantir que a sessão tenha user_id (burla o problema)
+            $attempts = 0;
+            while (session('user_id') != $user->id && $attempts < 5) {
+                session()->save();
+                DB::table('sessions')->where('id', session()->getId())->update(['user_id' => $user->id]);
+                $attempts++;
+                Log::debug('[OAuth] Tentativa de persistir user_id na sessão', ['attempt' => $attempts, 'session_user_id' => session('user_id')]);
+            }
+
             $token = $user->createToken('oauth-token')->plainTextToken;
             Log::debug('[OAuth] Token gerado e redirecionando', ['user_id' => $user->id, 'token' => $token]);
             return redirect()->away("{$frontendUrl}/auth/callback?token={$token}");
