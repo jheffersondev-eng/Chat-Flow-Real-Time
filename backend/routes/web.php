@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Auth\OAuthController;
+use Backend\Http\Controllers\Auth\OAuthController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Broadcast;
 
