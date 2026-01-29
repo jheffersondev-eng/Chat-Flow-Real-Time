@@ -23,7 +23,7 @@ class OAuthController extends Controller
     public function redirect(string $provider)
     {
         $this->validateProvider($provider);
-        
+        dd(env('FRONTEND_URL'));
             // Log para inspecionar o valor de FRONTEND_URL ao iniciar o fluxo OAuth
             Log::info('FRONTEND_URL at OAuthController (redirect): ' . env('FRONTEND_URL'));
         return Socialite::driver($provider)->redirect();
