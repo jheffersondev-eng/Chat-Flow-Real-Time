@@ -4,12 +4,10 @@ namespace Backend\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Backend\Domain\Repositories\UserRepositoryInterface;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
-use Illuminate\Support\Facades\Log;
 
 class OAuthController extends Controller
 {
@@ -23,9 +21,6 @@ class OAuthController extends Controller
     public function redirect(string $provider)
     {
         $this->validateProvider($provider);
-        dd(env('FRONTEND_URL'));
-            // Log para inspecionar o valor de FRONTEND_URL ao iniciar o fluxo OAuth
-            Log::info('FRONTEND_URL at OAuthController (redirect): ' . env('FRONTEND_URL'));
         return Socialite::driver($provider)->redirect();
     }
 
@@ -48,9 +43,7 @@ class OAuthController extends Controller
                     'email' => $socialUser->getEmail(),
                 ]
             );
-
-            // Log para inspecionar o valor de FRONTEND_URL em produção
-            Log::info('FRONTEND_URL at OAuthController: ' . env('FRONTEND_URL'));
+            
             // Login user
             $frontendUrl = env('FRONTEND_URL');
             $twoFactorRequired = $user->hasEnabledTwoFactorAuthentication();
