@@ -26,10 +26,10 @@ export default function AuthCallbackPage() {
   }, [searchParams, router])
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
       <div className="text-center space-y-4">
         <Loader2 className="h-12 w-12 animate-spin text-purple-500 mx-auto" />
-        <p className="text-lg text-white">{t('auth.callback.loading')}</p>
+        <p className="text-lg text-gray-900 dark:text-white">{t('auth.callback.loading')}</p>
       </div>
     </div>
   )

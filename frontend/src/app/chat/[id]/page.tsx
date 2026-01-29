@@ -173,20 +173,20 @@ export default function ChatPage() {
 
   if (loading) {
     return (
-      <div className="h-screen bg-gray-900 flex items-center justify-center">
+      <div className="h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <Loader2 className="w-12 h-12 animate-spin text-purple-500" />
       </div>
     );
   }
 
   return (
-    <div className="h-screen bg-gray-900 text-white flex flex-col">
+      <div className="h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white flex flex-col">
       {/* Header */}
-      <div className="bg-gray-800 border-b border-gray-700 px-4 py-3">
+        <div className="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 px-4 py-3">
         <div className="flex items-center gap-3">
           <button
             onClick={() => router.push('/dashboard')}
-            className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+            className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
           </button>
@@ -201,12 +201,12 @@ export default function ChatPage() {
           
           <div className="flex-1">
             <h2 className="font-semibold">{conversation?.name}</h2>
-            <p className="text-sm text-gray-400">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
               {conversation?.type === 'ai' ? t('chat.ai.title') : t('chat.status.online')}
             </p>
           </div>
           
-          <button className="p-2 hover:bg-gray-700 rounded-lg transition-colors">
+          <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors">
             <MoreVertical className="w-5 h-5" />
           </button>
         </div>
@@ -240,7 +240,7 @@ export default function ChatPage() {
                 
                 <div>
                   {!isOwn && (
-                    <p className="text-xs text-gray-400 mb-1 px-2">
+                    <p className="text-xs text-gray-500 dark:text-gray-400 mb-1 px-2">
                       {isBot ? t('chat.ai.title') : message.user?.name}
                     </p>
                   )}
@@ -250,12 +250,12 @@ export default function ChatPage() {
                         ? 'bg-purple-600 text-white'
                         : isBot
                         ? 'bg-gradient-to-r from-blue-600 to-cyan-600 text-white'
-                        : 'bg-gray-700 text-white'
+                        : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
                     }`}
                   >
                     <p className="whitespace-pre-wrap break-words">{message.content}</p>
                   </div>
-                  <p className="text-xs text-gray-500 mt-1 px-2">
+                  <p className="text-xs text-gray-500 dark:text-gray-500 mt-1 px-2">
                     {new Date(message.created_at).toLocaleTimeString(localeMap[locale] || locale, {
                       hour: '2-digit',
                       minute: '2-digit'
@@ -277,7 +277,7 @@ export default function ChatPage() {
             <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center">
               <Bot className="w-4 h-4" />
             </div>
-            <div className="bg-gray-700 px-4 py-2 rounded-2xl">
+            <div className="bg-gray-200 dark:bg-gray-700 px-4 py-2 rounded-2xl">
               <div className="flex gap-1">
                 <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></span>
                 <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></span>
@@ -291,14 +291,14 @@ export default function ChatPage() {
       </div>
 
       {/* Input */}
-      <div className="bg-gray-800 border-t border-gray-700 p-4">
+      <div className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 p-4">
         <form onSubmit={handleSend} className="flex gap-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder={t('chat.input.placeholder')}
-            className="flex-1 px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900 dark:text-white"
             disabled={waitingForBot}
           />
           <button

@@ -117,23 +117,23 @@ export default function TwoFactorSettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white">
       <div className="max-w-3xl mx-auto px-6 py-10">
         <button
           onClick={() => router.push('/dashboard')}
-          className="flex items-center gap-2 text-gray-300 hover:text-white"
+          className="flex items-center gap-2 text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
         >
           <ArrowLeft className="w-4 h-4" />
           {t('settings.back')}
         </button>
 
-        <div className="mt-8 bg-gray-800 border border-gray-700 rounded-2xl p-6">
+        <div className="mt-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6">
           <div className="flex items-center gap-3 mb-4">
             <ShieldCheck className="w-6 h-6 text-purple-400" />
             <h1 className="text-2xl font-bold">{t('settings.2fa.title')}</h1>
           </div>
 
-          <p className="text-gray-400 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
             {t('settings.2fa.subtitle')}
           </p>
 
@@ -156,8 +156,8 @@ export default function TwoFactorSettingsPage() {
 
             {enabled && !confirmed && qrCodeSvg && (
               <div className="space-y-4">
-                <div className="bg-gray-900 border border-gray-700 rounded-lg p-4">
-                  <div className="text-center text-sm text-gray-300 mb-3">
+                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                  <div className="text-center text-sm text-gray-600 dark:text-gray-300 mb-3">
                     {t('settings.2fa.qr.hint')}
                   </div>
                   <div className="flex items-center justify-center">
@@ -168,12 +168,12 @@ export default function TwoFactorSettingsPage() {
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-300 mb-2">{t('settings.2fa.input.code')}</label>
+                  <label className="block text-sm text-gray-600 dark:text-gray-300 mb-2">{t('settings.2fa.input.code')}</label>
                   <input
                     type="text"
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    className="w-full px-4 py-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900 dark:text-white"
                     placeholder="123456"
                   />
                 </div>
@@ -189,15 +189,15 @@ export default function TwoFactorSettingsPage() {
 
             {enabled && confirmed && (
               <div className="space-y-4">
-                <div className="bg-gray-900 border border-gray-700 rounded-lg p-4">
-                  <p className="text-sm text-gray-300 mb-3">{t('settings.2fa.codes.title')}</p>
-                  <div className="grid grid-cols-2 gap-2 text-sm text-gray-200">
+                <div className="bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 mb-3">{t('settings.2fa.codes.title')}</p>
+                  <div className="grid grid-cols-2 gap-2 text-sm text-gray-800 dark:text-gray-200">
                     {recoveryCodes.length > 0 ? (
                       recoveryCodes.map((codeItem) => (
-                        <span key={codeItem} className="bg-gray-800 rounded-md px-2 py-1">{codeItem}</span>
+                        <span key={codeItem} className="bg-gray-200 dark:bg-gray-800 rounded-md px-2 py-1">{codeItem}</span>
                       ))
                     ) : (
-                      <span className="text-gray-400">{t('settings.2fa.codes.empty')}</span>
+                      <span className="text-gray-500 dark:text-gray-400">{t('settings.2fa.codes.empty')}</span>
                     )}
                   </div>
                 </div>
@@ -206,7 +206,7 @@ export default function TwoFactorSettingsPage() {
                   <button
                     onClick={handleRegenerateCodes}
                     disabled={working}
-                    className="flex items-center gap-2 px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-lg font-semibold disabled:opacity-50"
+                    className="flex items-center gap-2 px-4 py-2 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-lg font-semibold disabled:opacity-50"
                   >
                     <RefreshCw className="w-4 h-4" />
                     {t('settings.2fa.button.regenerate')}

@@ -53,17 +53,17 @@ export default function TwoFactorLoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-white flex items-center justify-center p-6">
       <form
         onSubmit={handleVerify}
-        className="w-full max-w-md bg-gray-800 border border-gray-700 rounded-2xl p-6 space-y-5"
+        className="w-full max-w-md bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-2xl p-6 space-y-5"
       >
         <div className="flex items-center gap-3">
           <ShieldCheck className="w-6 h-6 text-purple-400" />
           <h1 className="text-2xl font-bold">{t('auth.2fa.title')}</h1>
         </div>
 
-        <p className="text-sm text-gray-400">
+        <p className="text-sm text-gray-600 dark:text-gray-400">
           {t('auth.2fa.subtitle')}
         </p>
 
@@ -79,14 +79,14 @@ export default function TwoFactorLoginPage() {
             value={code}
             onChange={(e) => setCode(e.target.value)}
             placeholder={t('auth.2fa.code')}
-            className="w-full px-4 py-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900 dark:text-white"
           />
           <input
             type="text"
             value={recoveryCode}
             onChange={(e) => setRecoveryCode(e.target.value)}
             placeholder={t('auth.2fa.recovery')}
-            className="w-full px-4 py-2 rounded-lg bg-gray-900 border border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="w-full px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900 dark:text-white"
           />
         </div>
 

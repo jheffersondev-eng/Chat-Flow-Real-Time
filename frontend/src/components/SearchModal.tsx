@@ -120,15 +120,15 @@ export default function SearchModal({ onClose, onFriendAdded }: SearchModalProps
         initial={{ scale: 0.9, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.9, opacity: 0 }}
-        className="bg-gray-800 rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col"
+        className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-2xl w-full max-w-2xl max-h-[80vh] flex flex-col"
       >
         {/* Header */}
-        <div className="p-6 border-b border-gray-700">
+        <div className="p-6 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-2xl font-bold">{t('modal.friends.title')}</h2>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+              className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -141,7 +141,7 @@ export default function SearchModal({ onClose, onFriendAdded }: SearchModalProps
               className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-all ${
                 activeTab === 'search'
                   ? 'bg-purple-600 text-white'
-                  : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -154,7 +154,7 @@ export default function SearchModal({ onClose, onFriendAdded }: SearchModalProps
               className={`flex-1 px-4 py-2 rounded-lg font-semibold transition-all relative ${
                 activeTab === 'requests'
                   ? 'bg-purple-600 text-white'
-                  : 'bg-gray-700 text-gray-400 hover:bg-gray-600'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-600'
               }`}
             >
               <div className="flex items-center justify-center gap-2">
@@ -188,7 +188,7 @@ export default function SearchModal({ onClose, onFriendAdded }: SearchModalProps
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder={t('modal.friends.search.placeholder')}
-                    className="w-full pl-10 pr-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+                    className="w-full pl-10 pr-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900 dark:text-white"
                     autoFocus
                   />
                 </div>
@@ -205,14 +205,14 @@ export default function SearchModal({ onClose, onFriendAdded }: SearchModalProps
                         key={user.id}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="flex items-center gap-3 p-4 bg-gray-700 rounded-lg hover:bg-gray-600 transition-colors"
+                        className="flex items-center gap-3 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors"
                       >
                         <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
                           <span className="text-lg font-bold">{user.name.charAt(0)}</span>
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-semibold">{user.name}</p>
-                          <p className="text-sm text-gray-400 truncate">{user.email}</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
                         </div>
                         {user.is_friend ? (
                           <div className="flex items-center gap-2 text-green-400 text-sm">
@@ -241,12 +241,12 @@ export default function SearchModal({ onClose, onFriendAdded }: SearchModalProps
                       </motion.div>
                     ))
                   ) : searchQuery.length >= 2 ? (
-                    <div className="text-center py-8 text-gray-400">
+                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                       <Search className="w-12 h-12 mx-auto mb-3 opacity-50" />
                       <p>{t('modal.friends.search.empty')}</p>
                     </div>
                   ) : (
-                    <div className="text-center py-8 text-gray-400">
+                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                       <Search className="w-12 h-12 mx-auto mb-3 opacity-50" />
                       <p>{t('modal.friends.search.helper')}</p>
                     </div>
@@ -267,7 +267,7 @@ export default function SearchModal({ onClose, onFriendAdded }: SearchModalProps
                         key={request.id}
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="flex items-center gap-3 p-4 bg-gray-700 rounded-lg"
+                        className="flex items-center gap-3 p-4 bg-gray-100 dark:bg-gray-700 rounded-lg"
                       >
                         <div className="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center flex-shrink-0">
                           <span className="text-lg font-bold">
@@ -276,7 +276,7 @@ export default function SearchModal({ onClose, onFriendAdded }: SearchModalProps
                         </div>
                         <div className="flex-1 min-w-0">
                           <p className="font-semibold">{request.user?.name || t('modal.friends.unknownUser')}</p>
-                          <p className="text-sm text-gray-400 truncate">{request.user?.email || ''}</p>
+                          <p className="text-sm text-gray-500 dark:text-gray-400 truncate">{request.user?.email || ''}</p>
                         </div>
                         <div className="flex gap-2">
                           <button
@@ -303,7 +303,7 @@ export default function SearchModal({ onClose, onFriendAdded }: SearchModalProps
                       </motion.div>
                     ))
                   ) : (
-                    <div className="text-center py-8 text-gray-400">
+                    <div className="text-center py-8 text-gray-500 dark:text-gray-400">
                       <Clock className="w-12 h-12 mx-auto mb-3 opacity-50" />
                       <p>{t('modal.friends.requests.empty')}</p>
                     </div>

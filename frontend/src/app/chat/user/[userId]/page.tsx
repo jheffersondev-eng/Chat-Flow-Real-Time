@@ -174,20 +174,20 @@ export default function UserChatPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex items-center justify-center">
+      <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 flex items-center justify-center">
         <Loader2 className="w-12 h-12 animate-spin text-purple-500" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 flex flex-col">
-      <div className="sticky top-0 z-10 bg-gray-800/50 backdrop-blur-sm border-b border-gray-700 p-4">
+      <div className="min-h-screen bg-gray-50 dark:bg-gradient-to-br dark:from-gray-900 dark:via-purple-900 dark:to-gray-900 text-gray-900 dark:text-white flex flex-col">
+        <div className="sticky top-0 z-10 bg-white/70 dark:bg-gray-800/50 backdrop-blur-sm border-b border-gray-200 dark:border-gray-700 p-4">
         <div className="max-w-4xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <button
               onClick={() => router.push('/dashboard')}
-              className="p-2 hover:bg-gray-700 rounded-lg transition-colors"
+                className="p-2 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg transition-colors"
             >
               <ArrowLeft className="w-5 h-5" />
             </button>
@@ -198,7 +198,7 @@ export default function UserChatPage() {
             
             <div>
               <h1 className="text-xl font-bold">{friendName}</h1>
-              <p className="text-sm text-gray-400">{t('chat.private.title')}</p>
+              <p className="text-sm text-gray-500 dark:text-gray-400">{t('chat.private.title')}</p>
             </div>
           </div>
         </div>
@@ -218,13 +218,13 @@ export default function UserChatPage() {
               <div
                 className={`max-w-[70%] rounded-2xl px-4 py-2 ${
                   message.user?.id === currentUserId
-                    ? 'bg-purple-600'
-                    : 'bg-gray-700'
+                    ? 'bg-purple-600 text-white'
+                    : 'bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white'
                 }`}
               >
                 <p className="whitespace-pre-wrap break-words">{message.content}</p>
                 <div className="flex items-center justify-end gap-1 mt-1">
-                  <p className="text-xs text-gray-300">
+                  <p className="text-xs text-gray-500 dark:text-gray-300">
                     {new Date(message.created_at).toLocaleTimeString(localeMap[locale] || locale, {
                       hour: '2-digit',
                       minute: '2-digit',
@@ -236,7 +236,7 @@ export default function UserChatPage() {
                         <Loader2 className="w-3 h-3 animate-spin inline" />
                       )}
                       {message.status === 'sent' && (
-                        <span className="text-gray-300">✓✓</span>
+                        <span className="text-gray-500 dark:text-gray-300">✓✓</span>
                       )}
                       {(message as any).status === 'failed' && (
                         <span className="text-red-400">✗</span>
@@ -251,14 +251,14 @@ export default function UserChatPage() {
         </div>
       </div>
 
-      <div className="bg-gray-800/50 backdrop-blur-sm border-t border-gray-700 p-4">
+      <div className="bg-white/70 dark:bg-gray-800/50 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 p-4">
         <form onSubmit={handleSend} className="max-w-4xl mx-auto flex gap-2">
           <input
             type="text"
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder={t('chat.input.private.placeholder')}
-            className="flex-1 px-4 py-3 bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+            className="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 text-gray-900 dark:text-white"
           />
           <button
             type="submit"
