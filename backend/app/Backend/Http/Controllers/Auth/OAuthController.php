@@ -46,6 +46,8 @@ class OAuthController extends Controller
                 ]
             );
 
+            // Log para inspecionar o valor de FRONTEND_URL em produção
+            Log::info('FRONTEND_URL at OAuthController: ' . env('FRONTEND_URL'));
             // Login user
             $frontendUrl = env('FRONTEND_URL');
             $twoFactorRequired = $user->hasEnabledTwoFactorAuthentication();
