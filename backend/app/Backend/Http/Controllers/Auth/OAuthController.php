@@ -86,14 +86,14 @@ class OAuthController extends Controller
             // Gambiarra: forçar persistência do user_id na sessão
             session(['_login_user_id' => $user->id]);
             // Debug: mostrar estado da autenticação e sessão
-            dd(
+            dd([
                 'auth_check' => auth()->check(),
                 'auth_id' => auth()->id(),
                 'session_id' => session()->getId(),
                 'session_user_id' => session('user_id'),
                 'session_login_user_id' => session('_login_user_id'),
                 'session_all' => session()->all()
-            );
+            ]);
 
             $token = $user->createToken('oauth-token')->plainTextToken;
             Log::debug('[OAuth] Token gerado e redirecionando', ['user_id' => $user->id, 'token' => $token]);
