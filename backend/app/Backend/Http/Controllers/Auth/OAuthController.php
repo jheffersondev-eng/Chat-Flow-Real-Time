@@ -84,14 +84,8 @@ class OAuthController extends Controller
             session()->save();
             DB::table('sessions')->where('id', session()->getId())->update(['user_id' => $user->id]);
 
-            // Loop para garantir que a sessão tenha user_id (burla o problema)
-            $attempts = 0;
-            while (session('user_id') != $user->id && $attempts < 5) {
-                session()->save();
-                DB::table('sessions')->where('id', session()->getId())->update(['user_id' => $user->id]);
-                $attempts++;
-                Log::debug('[OAuth] Tentativa de persistir user_id na sessão', ['attempt' => $attempts, 'session_user_id' => session('user_id')]);
-            }
+            // Função recursiva para garantir que a sessão tenha user_id
+            $this->ensureSessionUserId($user->id);
 
             $token = $user->createToken('oauth-token')->plainTextToken;
             Log::debug('[OAuth] Token gerado e redirecionando', ['user_id' => $user->id, 'token' => $token]);
@@ -103,12 +97,18 @@ class OAuthController extends Controller
     }
 
     /**
-     * Validate OAuth provider
+     * Garante que o user_id seja persistido na sessão (função recursiva)
      */
-    protected function validateProvider(string $provider)
+    private function ensureSessionUserId(int $userId, int $attempts = 0): void
     {
-        if (!in_array($provider, ['google', 'github'])) {
-            abort(404, 'Invalid OAuth provider');
+        if (session('user_id') == $userId || $attempts >= 5) {
+            return;
         }
+
+        session()->save();
+        DB::table('sessions')->where('id', session()->getId())->update(['user_id' => $userId]);
+        Log::debug('[OAuth] Tentativa recursiva de persistir user_id', ['attempt' => $attempts + 1, 'session_user_id' => session('user_id')]);
+
+        $this->ensureSessionUserId($userId, $attempts + 1);
     }
 }
