@@ -61,34 +61,38 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - name: Fail if VERCEL_TOKEN is not set
-        if: ${{ !secrets.VERCEL_TOKEN }}
+      - name: Check VERCEL_TOKEN and maybe skip
         run: |
-          echo "VERCEL_TOKEN is not set. Skipping deployment."
-          exit 1
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "VERCEL_TOKEN is not set. Skipping deployment."
+            exit 0
+          fi
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Deploy to Vercel
-        if: ${{ secrets.VERCEL_TOKEN }}
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: frontend
-          vercel-args: '--prod'
+        run: |
+          if [ -z "${{ secrets.VERCEL_TOKEN }}" ]; then
+            echo "VERCEL_TOKEN is not set. Skipping deployment."
+            exit 0
+          fi
+          npx vercel --token ${{ secrets.VERCEL_TOKEN }} --prod --cwd frontend
 
   deploy_backend:
     needs: [backend]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - name: Fail if RENDER_DEPLOY_HOOK is not set
-        if: ${{ !secrets.RENDER_DEPLOY_HOOK }}
+      - name: Check RENDER_DEPLOY_HOOK and maybe skip
         run: |
-          echo "RENDER_DEPLOY_HOOK is not set. Skipping deployment."
-          exit 1
+          if [ -z "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
+            echo "RENDER_DEPLOY_HOOK is not set. Skipping deployment."
+            exit 0
+          fi
       - name: Trigger Render Deploy Hook
-        if: ${{ secrets.RENDER_DEPLOY_HOOK }}
-        run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
+        run: |
+          if [ -z "${{ secrets.RENDER_DEPLOY_HOOK }}" ]; then
+            echo "RENDER_DEPLOY_HOOK is not set. Skipping deployment."
+            exit 0
+          fi
+          curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
