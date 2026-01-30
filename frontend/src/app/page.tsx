@@ -10,6 +10,7 @@ export default function LandingPage() {
   const router = useRouter();
   const { t } = useI18n();
   const [mounted, setMounted] = useState(false);
+  const [showBugModal, setShowBugModal] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -23,11 +24,16 @@ export default function LandingPage() {
 
   const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL || '';
   const handleGoogleLogin = () => {
-    window.location.href = `${apiBaseUrl}/auth/google/redirect`;
+    setShowBugModal(true);
   };
 
   const handleGithubLogin = () => {
-    window.location.href = `${apiBaseUrl}/auth/github/redirect`;
+    setShowBugModal(true);
+  };
+
+  const proceedWithLogin = (provider: 'google' | 'github') => {
+    setShowBugModal(false);
+    window.location.href = `${apiBaseUrl}/auth/${provider}/redirect`;
   };
 
   if (!mounted) return null;
@@ -233,6 +239,40 @@ export default function LandingPage() {
           animation-delay: 4s;
         }
       `}</style>
+
+      {/* Bug Modal */}
+      {showBugModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md mx-4">
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
+              ⚠️ Problema Temporário de Login
+            </h3>
+            <p className="text-gray-600 dark:text-gray-300 mb-6">
+              Há um bug temporário que afeta apenas o ambiente de produção. Para fazer login, você pode precisar tentar algumas vezes clicando no botão de login. Desculpe pelo inconveniente!
+            </p>
+            <div className="flex gap-3">
+              <button
+                onClick={() => proceedWithLogin('google')}
+                className="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Logar com Google
+              </button>
+              <button
+                onClick={() => proceedWithLogin('github')}
+                className="flex-1 px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors dark:bg-gray-700 dark:hover:bg-gray-600"
+              >
+                Logar com GitHub
+              </button>
+            </div>
+            <button
+              onClick={() => setShowBugModal(false)}
+              className="mt-4 w-full px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors dark:bg-gray-600 dark:text-white dark:hover:bg-gray-500"
+            >
+              Cancelar
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
