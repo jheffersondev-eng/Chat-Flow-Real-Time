@@ -99,31 +99,23 @@ export default function ChatPage() {
 
   const subscribeToChannel = () => {
     if (!Echo) return;
-    
-    console.log('🔌 Subscrevendo ao canal:', `chat.${conversationId}`);
-    
-    const channel = (Echo as any).connector.pusher.subscribe(`chat.${conversationId}`);
-    
-    channel.bind('MessageSent', (data: any) => {
-      console.log('✅ MENSAGEM RECEBIDA!', data);
-      
-      const message = data.message;
-      const isOwnMessage = message.user_id && message.user_id === currentUserId;
-      
+    // Remove listeners antigos para evitar duplicidade
+    Echo.leave(`chat.${conversationId}`);
+    const channel = Echo.channel(`chat.${conversationId}`);
+    channel.listen('.message.sent', (e: any) => {
+      // e já é o payload correto
+      const isOwnMessage = e.user_id && e.user_id === currentUserId;
       if (!isOwnMessage) {
         setMessages(prev => {
-          if (prev.some(m => m.id === message.id)) return prev;
-          return [...prev, message];
+          if (prev.some(m => m.id === e.id)) return prev;
+          return [...prev, e];
         });
-        
-        if (message.type === 'bot') {
+        if (e.role === 'assistant' || e.type === 'bot') {
           setTypingUsers([]);
           setWaitingForBot(false);
         }
       }
     });
-
-    console.log('✅ Listener Pusher registrado');
   };
 
   const scrollToBottom = () => {

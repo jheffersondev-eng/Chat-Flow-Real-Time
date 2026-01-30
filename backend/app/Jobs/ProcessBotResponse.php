@@ -2,9 +2,10 @@
 
 namespace App\Jobs;
 
-use App\Events\MessageSent;
-use App\Backend\Application\Services\LLMBotService;
-use App\Backend\Domain\Entities\Message;
+use Backend\Domain\Events\MessageSent;
+use Backend\Application\Services\LLMBotService;
+use Backend\Domain\Entities\Message;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -31,18 +32,18 @@ class ProcessBotResponse implements ShouldQueue
     public function handle(LLMBotService $botService)
     {
         try {
-            \Log::info('ProcessBotResponse started', ['conversation_id' => $this->conversationId]);
-            
+            Log::info('ProcessBotResponse started', ['conversation_id' => $this->conversationId]);
+
             // Simulate typing delay for better UX
             sleep(1);
-            
+
             // Generate AI response
             $aiResponse = $botService->generateResponse(
                 $this->userMessage,
                 $this->conversationHistory
             );
 
-            \Log::info('AI Response generated', ['response' => substr($aiResponse, 0, 100)]);
+            Log::info('AI Response generated', ['response' => substr($aiResponse, 0, 100)]);
 
             // Create AI message in database
             $message = Message::create([
@@ -54,11 +55,10 @@ class ProcessBotResponse implements ShouldQueue
 
             // Broadcast AI response
             broadcast(new MessageSent($message->load('user'), $this->conversationId));
-            
-            \Log::info('AI Response broadcasted');
+
+            Log::info('AI Response broadcasted');
         } catch (\Exception $e) {
-            \Log::error('ProcessBotResponse error: ' . $e->getMessage());
-            throw $e;
+            Log::error('ProcessBotResponse error: ' . $e->getMessage());
         }
     }
 }

@@ -45,25 +45,21 @@ export default function ChatPage() {
 
       chatChannel.listen('.message.sent', (e: any) => {
         console.log('✅ Message received from WebSocket:', e);
-        
-        // If it's an assistant message, remove typing indicator
+        // Se for mensagem do assistente, remove typing
         if (e.role === 'assistant') {
-          console.log('🤖 AI response received, removing typing indicator');
           setTypingUsers([]);
         }
-        
         setMessages(prev => {
-          // Check if message already exists to prevent duplicates
           if (prev.some(m => m.id === e.id)) {
-            console.log('⚠️ Message already exists, skipping');
             return prev;
           }
-          console.log('➕ Adding new message to chat');
           return [...prev, {
             id: e.id,
             content: e.content,
             role: e.role,
-            timestamp: new Date(e.timestamp || Date.now())
+            timestamp: new Date(e.timestamp || Date.now()),
+            user_id: e.user_id,
+            user: e.user,
           }];
         });
       });

@@ -28,7 +28,8 @@ class OAuthController extends Controller
         $this->validateProvider($provider);
         $frontendUrl = env('FRONTEND_URL');
         try {
-            $socialUser = Socialite::driver($provider)->stateless()->user();
+            $driver = Socialite::driver($provider);
+            $socialUser = $driver->user();
             $user = $this->userRepository->findByEmail($socialUser->getEmail());
             if (!$user) {
                 $user = $this->userRepository->create([
