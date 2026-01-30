@@ -58,13 +58,19 @@ jobs:
 
   deploy_frontend:
     needs: [frontend]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.VERCEL_TOKEN != ''
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+      - name: Fail if VERCEL_TOKEN is not set
+        if: ${{ !secrets.VERCEL_TOKEN }}
+        run: |
+          echo "VERCEL_TOKEN is not set. Skipping deployment."
+          exit 1
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Deploy to Vercel
+        if: ${{ secrets.VERCEL_TOKEN }}
         uses: amondnet/vercel-action@v25
         with:
           vercel-token: ${{ secrets.VERCEL_TOKEN }}
@@ -75,8 +81,14 @@ jobs:
 
   deploy_backend:
     needs: [backend]
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.RENDER_DEPLOY_HOOK != ''
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
+      - name: Fail if RENDER_DEPLOY_HOOK is not set
+        if: ${{ !secrets.RENDER_DEPLOY_HOOK }}
+        run: |
+          echo "RENDER_DEPLOY_HOOK is not set. Skipping deployment."
+          exit 1
       - name: Trigger Render Deploy Hook
+        if: ${{ secrets.RENDER_DEPLOY_HOOK }}
         run: curl -X POST "${{ secrets.RENDER_DEPLOY_HOOK }}"
